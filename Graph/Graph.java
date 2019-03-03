@@ -14,10 +14,30 @@ public class Graph {
     }
   }
 
-
   public static void addEdge(Graph graph,int src, int dest) {
     graph.adj[src].add(dest);
     graph.adj[dest].add(src);
+  }
+
+  public static boolean hasPathDfs(Graph graph, int src, int dest) {
+    HashSet<Integer> visited = new HashSet<>();
+    return hasPathDfs(graph, src, dest, visited);
+  }
+
+  public static boolean hasPathDfs(Graph graph, int src, int dest, HashSet<Integer> visited) {
+    if (visited.contains(src)) {
+      return false;
+    }
+    visited.add(src);
+    if (src == dest) {
+      return true;
+    }
+    for (Integer node: graph.adj[src]) {
+      if (hasPathDfs(graph, node, dest, visited)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public static void printGraph(Graph graph) {
@@ -42,9 +62,9 @@ public class Graph {
     addEdge(graph, 2, 3);
     addEdge(graph, 3, 4);
 
-    // print the adjacency list representation of
-    // the above graph
     printGraph(graph);
+
+    System.out.println(hasPathDfs(graph, 4, 2));
   }
 
 
