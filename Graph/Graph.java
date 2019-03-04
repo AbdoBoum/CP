@@ -19,6 +19,24 @@ public class Graph {
     graph.adj[dest].add(src);
   }
 
+  /* to print to graph using Depth First Search */
+  public static void DFS(Graph graph, int currentNode) {
+    HashSet<Integer> visited = new HashSet<>();
+    DFS(graph, currentNode, visited);
+  }
+
+  public static void DFS(Graph graph, int currentNode, HashSet<Integer> visited) {
+    visited.add(currentNode);
+    System.out.print(currentNode + " ");
+    for (Integer node: graph.adj[currentNode]) {
+      if (!visited.contains(node)) {
+        DFS(graph, node, visited);
+      }
+    }
+  }
+/* -------------------------------------------- */
+
+/* to show if there is a path between two nodes */
   public static boolean hasPathDfs(Graph graph, int src, int dest) {
     HashSet<Integer> visited = new HashSet<>();
     return hasPathDfs(graph, src, dest, visited);
@@ -39,6 +57,7 @@ public class Graph {
     }
     return false;
   }
+  /* --------------------------------------- */
 
   public static void printGraph(Graph graph) {
     for (int i = 0; i < graph.v; i++) {
@@ -55,16 +74,15 @@ public class Graph {
     int v = 5;
     Graph graph = new Graph(v);
     addEdge(graph, 0, 1);
-    addEdge(graph, 0, 4);
-    addEdge(graph, 1, 2);
-    addEdge(graph, 1, 3);
-    addEdge(graph, 1, 4);
-    addEdge(graph, 2, 3);
+    addEdge(graph, 0, 2);
+    addEdge(graph, 2, 1);
+    addEdge (graph, 2, 3);
     addEdge(graph, 3, 4);
+    //printGraph(graph);
 
-    printGraph(graph);
+    //System.out.println(hasPathDfs(graph, 4, 2));
 
-    System.out.println(hasPathDfs(graph, 4, 2));
+    DFS(graph, 2);
   }
 
 
