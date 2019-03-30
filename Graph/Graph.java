@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Graph {
 
-  private int v;
+  protected int v;
   LinkedList<Integer> adj[];
 
   public Graph(int v) {
@@ -17,6 +17,23 @@ public class Graph {
   public static void addEdge(Graph graph,int src, int dest) {
     graph.adj[src].add(dest);
     graph.adj[dest].add(src);
+  }
+
+  public static void BFS(Graph graph, int currentNode) {
+    Queue<Integer> queue = new LinkedList<>();
+    HashSet<Integer> visited = new HashSet<>();
+    queue.add(currentNode);
+    visited.add(currentNode);
+    while(!queue.isEmpty()) {
+      int node = queue.poll();
+      System.out.print(node + " ");
+      for (int iterator: graph.adj[currentNode]) {
+        if (!visited.contains(iterator)) {
+          visited.add(iterator);
+          queue.add(iterator);
+        }
+      }
+    }
   }
 
   /* to print to graph using Depth First Search */
@@ -33,6 +50,19 @@ public class Graph {
         DFS(graph, node, visited);
       }
     }
+  }
+
+  public static void connectedComponents(Graph graph) {
+    HashSet<Integer> visited = new HashSet<>();
+    int cc = 0;
+    for (int i = 0; i < graph.v; i++) {
+      if (!visited.contains(i)) {
+        DFS(graph, i, visited);
+        ++cc;
+        System.out.println();
+      }
+    }
+    System.out.println(cc);
   }
 /* -------------------------------------------- */
 
@@ -76,13 +106,16 @@ public class Graph {
     addEdge(graph, 0, 1);
     addEdge(graph, 0, 2);
     addEdge(graph, 2, 1);
-    addEdge (graph, 2, 3);
     addEdge(graph, 3, 4);
-    //printGraph(graph);
+    printGraph(graph);
 
     //System.out.println(hasPathDfs(graph, 4, 2));
 
-    DFS(graph, 2);
+    //BFS(graph, 0);
+    //System.out.println();
+    //BFS(graph, 3);
+    //System.out.println();
+    //connectedComponents(graph);
   }
 
 
