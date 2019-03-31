@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Graph {
 
-  private int v;
+  protected int v;
   LinkedList<Integer> adj[];
 
   public Graph(int v) {
@@ -17,6 +17,23 @@ public class Graph {
   public static void addEdge(Graph graph,int src, int dest) {
     graph.adj[src].add(dest);
     graph.adj[dest].add(src);
+  }
+
+  public static void BFS(Graph graph, int currentNode) {
+    Queue<Integer> queue = new LinkedList<>();
+    HashSet<Integer> visited = new HashSet<>();
+    queue.add(currentNode);
+    visited.add(currentNode);
+    while(!queue.isEmpty()) {
+      int node = queue.poll();
+      System.out.print(node + " ");
+      for (int iterator: graph.adj[currentNode]) {
+        if (!visited.contains(iterator)) {
+          visited.add(iterator);
+          queue.add(iterator);
+        }
+      }
+    }
   }
 
   /* to print to graph using Depth First Search */
@@ -59,6 +76,45 @@ public class Graph {
   }
   /* --------------------------------------- */
 
+/* to find connected components */
+public static void connectedComponents(Graph graph) {
+  HashSet<Integer> visited = new HashSet<>();
+  int cc = 0;
+  for (int i = 0; i < graph.v; i++) {
+    if (!visited.contains(i)) {
+      DFS(graph, i, visited);
+      ++cc;
+      System.out.println();
+    }
+  }
+  System.out.println(cc);
+}
+/* ---------------------------- */
+
+/* Check if a graph is Bipartite */
+public static boolean isBipartite(Graph graph, int src) {
+  int color[] = new int[graph.v];
+  for (int i = 0; i < graph.v; i++) {
+    color[i] = -1;
+  }
+  Queue<Integer> queue = new LinkedList<Integer>();
+  color[src] = 1;
+  queue.add(src);
+  while (!queue.isEmpty()) {
+    int u = queue.poll();
+    for (int node: graph.adj[u]) {
+      if (color[node] == -1) {
+        color[node] = 1 - color[u];
+        queue.add(node);
+      } else if (color[node] == color[u]){
+        return false;
+      }
+    }
+  }
+  return true;
+}
+/* ----------------------------- */
+
   public static void printGraph(Graph graph) {
     for (int i = 0; i < graph.v; i++) {
       System.out.println("Adjacency list of node: " + i);
@@ -74,15 +130,19 @@ public class Graph {
     int v = 5;
     Graph graph = new Graph(v);
     addEdge(graph, 0, 1);
-    addEdge(graph, 0, 2);
-    addEdge(graph, 2, 1);
-    addEdge (graph, 2, 3);
+    addEdge(graph, 1, 2);
+    addEdge(graph, 2, 3);
     addEdge(graph, 3, 4);
-    //printGraph(graph);
-
+    printGraph(graph);
+    System.out.println();
+    System.out.println(isBipartite(graph, 0) ? "Graph is Bipartite" : "Graph is not Bipartite");
     //System.out.println(hasPathDfs(graph, 4, 2));
 
-    DFS(graph, 2);
+    //BFS(graph, 0);
+    //System.out.println();
+    //BFS(graph, 3);
+    //System.out.println();
+    //connectedComponents(graph);
   }
 
 
