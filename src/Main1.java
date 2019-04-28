@@ -3,7 +3,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public class Main {
+public class Main1 {
     static BufferedReader reader;
     static StringTokenizer tokenizer;
     static PrintWriter writer;
@@ -23,34 +23,38 @@ public class Main {
         reader = new BufferedReader(new InputStreamReader(System.in));
         writer = new PrintWriter(System.out);
         Solver solver = new Solver();
-        solver.solve();
+        solver.solve(reader, writer);
         reader.close();
         writer.close();
     }
 
     static class Solver {
 
-        void solve() throws Exception {
+        void solve(BufferedReader reader, PrintWriter writer) throws Exception {
+            int n = nextInt();
             int t = nextInt();
-            char[] seq = next().toCharArray();
-            int min = (int)10e9;
-            int i =0;
-            char[] genome = new char[]{'A', 'C', 'T', 'G'};
-            while (i < t-3) {
-                int v1 = Math.min((seq[i] - genome[0] + 26) % 26, (genome[0] - seq[i] + 26) % 26);
-
-                int v2 = Math.min((seq[i+1] - genome[1] + 26) % 26, (genome[1] - seq[i+1] + 26) % 26);
-
-                int v3 = Math.min((seq[i+2] - genome[2] + 26) % 26, (genome[2] - seq[i+2] + 26) % 26);
-
-                int v4 = Math.min((seq[i+3] - genome[3] + 26) % 26, (genome[3] - seq[i+3] + 26) % 26);
-
-                min = Math.min(min,v1+v2+v3+v4);
-                i++;
+            int[] s = new int[n + 1];
+            int d;
+            for (int i = 1; i < n + 1; i++) {
+                s[i] = nextInt();
+                d = nextInt();
+                while (s[i] < t) {
+                    s[i] += d;
+                }
             }
-            writer.println(min);
-        }
 
+            int ans = s[1];
+            int i = 1;
+            int j = 1;
+            while (j < n + 1) {
+                if (s[j] < ans) {
+                    ans = s[j];
+                    i = j;
+                }
+                j++;
+            }
+            writer.println(i);
+        }
 
     }
 }

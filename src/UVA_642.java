@@ -72,11 +72,13 @@ public class UVA_642 {
         boolean areAnagrams(char[] a, char[] b) {
             HashMap<Character, Integer> map = new HashMap<>();
             for (char _a: a) {
-                if (!map.containsKey(_a)) {
+               /* if (!map.containsKey(_a)) {
                     map.put(_a, 1);
                 } else {
                     map.replace(_a, map.get(_a) + 1);
-                }
+                }*/
+               map.putIfAbsent(_a, 0);
+               map.put(_a, map.get(_a) + 1);
             }
             for (char _b: b) {
                 if (!map.containsKey(_b)) {

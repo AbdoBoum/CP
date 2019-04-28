@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -37,9 +38,7 @@ public class UVA_12582 {
             int j = 1;
             while (t-- > 0) {
                 int[] ans = new int[26];
-                for (int i: ans) {
-                    i = 0;
-                }
+                Arrays.fill(ans, 0);
                 writer.println("Case " + j);
                 j++;
                 String Path = next();
