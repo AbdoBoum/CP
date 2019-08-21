@@ -58,7 +58,6 @@ public class UVA_11228 {
                         + (areas < 2 ? 0 : Math.round(graph.rail(parent, rank, vertices))));
             }
         }
-
     }
 
     static class Graph {
@@ -91,7 +90,7 @@ public class UVA_11228 {
             int x, y, comp;
 
             double distance(Vertex o) {
-                return Math.sqrt(Math.pow(this.x - o.x , 2) + Math.pow(this.y - o.y, 2));
+                return (Math.pow(this.x - o.x , 2) + Math.pow(this.y - o.y, 2));
             }
 
         }
@@ -139,7 +138,7 @@ public class UVA_11228 {
             src.comp = k;
             comp.add(src);
             for (Vertex vertex : this.vertices) {
-                if (!visited.contains(vertex) && (src.distance(vertex) <= r)) {
+                if (!visited.contains(vertex) && (src.distance(vertex) <= r * r)) {
                     dfs(visited, vertex, r, comp, k);
                 }
 
@@ -189,7 +188,7 @@ public class UVA_11228 {
                 Vertex aroot = find_set(parent, next_edge.src);
                 Vertex broot = find_set(parent, next_edge.dest);
                 if (aroot != broot) {
-                    result += next_edge.weight;
+                    result += Math.sqrt(next_edge.weight);
                     union_set(parent, rank, aroot, broot);
                     e++;
                 }
@@ -217,7 +216,7 @@ public class UVA_11228 {
                 Vertex aroot = find_set(parent, next_edge.src);
                 Vertex broot = find_set(parent, next_edge.dest);
                 if (aroot != broot) {
-                    if (next_edge.src.comp != next_edge.dest.comp) result += next_edge.weight;
+                    if (next_edge.src.comp != next_edge.dest.comp) result += Math.sqrt(next_edge.weight);
                     union_set(parent, rank, aroot, broot);
                     e++;
                 }
